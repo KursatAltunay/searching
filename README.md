@@ -2,7 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
+Some data in 'fakeData.json' which are 'longitude', 'lattitude' and 'balance' was changed.
+
 ## Development server
+
+When in 'jengal-yazilim' folder to run json server, enter 'db' folder with 'cd db'. Run 'json-server --watch fakeData.json' for a dev json server.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
