@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RouterModule } from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -14,6 +15,7 @@ import {SharedModule} from '../shared/shared.module';
       { path: '', component: HomePageComponent },
     ]),
     SharedModule,
+    FontAwesomeModule
   ]
 })
 export class HomeModule { }

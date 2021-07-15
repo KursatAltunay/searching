@@ -1,9 +1,12 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Map} from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import {OSM} from 'ol/source';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Map } from 'ol';
+import { OSM } from 'ol/source';
 import View from 'ol/View';
 import VectorSource from 'ol/source/Vector';
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import * as olProj from 'ol/proj';
 
 
 @Component({
@@ -11,33 +14,51 @@ import VectorSource from 'ol/source/Vector';
   templateUrl: './base-map.component.html',
   styleUrls: ['./base-map.component.scss']
 })
-export class BaseMapComponent implements OnInit, AfterViewInit {
+export class BaseMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  map: any;
-  vectorSource = new VectorSource();
+  @ViewChild('mapRef', { read: ElementRef }) mapRef: ElementRef<HTMLDivElement>;
+
+  @Input() longitude;
+  @Input() latitude;
+  @Input() vectorSource;
+
+  map: Map;
+
+  point: Point;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     setTimeout(() => {
-      this.generateMap();
+      const place = [this.longitude, this.latitude];
+      this.generateMap(place);
     });
   }
 
-  generateMap(){
+  ngOnDestroy(): void {
+    this.map.setTarget(null);
+  }
+
+  generateMap(place) {
+    this.point = new Point (place);
     this.map = new Map({
-      target: 'map-container',
+      target: this.mapRef.nativeElement,
       view: new View({
-        center: [0, 0],
+        center: place,
         zoom: 2
       }),
       layers: [
         new TileLayer({
           source: new OSM()
-        })
+        }),
+        new VectorLayer({
+          source: new VectorSource({
+            features: [new Feature(this.point)],
+          }),
+        }),
       ]
     });
   }

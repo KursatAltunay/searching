@@ -5,8 +5,10 @@
 
   <div class="card mt-5" *ngFor="let item of viewData">
     <div class="card-header">
-      <div class="card-title">
+      <div class="card-title d-flex justify-content-between">
         <h5>{{ item.name }} / {{ item.age }} </h5>
+        <div> <span class="badge" [ngClass]="item.isActive ? 'bg-success' : 'bg-danger'">
+            {{ item.isActive? 'Aktif' : 'Pasif' }} </span></div>
       </div>
     </div>
     <div class="card-body">
@@ -14,16 +16,17 @@
         <div class="col-lg-3">
           <img class="img-fluid img-thumbnail" src="{{ item.picture }}" alt="">
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5  information">
           <div>{{ item.company }}</div>
           <div>{{ item.balance }}</div>
           <div>{{ item.address }}</div>
           <div>{{ item.email }}</div>
           <div>{{ item.phone }}</div>
-          <div><span class="badge bg-primary">Secondary</span></div>
+          <div> <span class="badge bg-info" *ngFor="let tag of item.tags"> <i class="fas fa-tag"></i> {{ tag }} </span>
+          </div>
         </div>
         <div class="col-lg-4">
-          <app-base-map></app-base-map>
+          <app-base-map  [longitude]="getLongitude(item._id)" [latitude]="getLatitude(item._id)" [vectorSource]="getVectorSource(item._id)"></app-base-map>
         </div>
       </div>
     </div>

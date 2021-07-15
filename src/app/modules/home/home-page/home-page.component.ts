@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from '@store/home/services/home.service';
 import { HomeModel } from '@store/home/models/home-model';
+import { faTag } from '@fortawesome/free-solid-svg-icons';
+import VectorSource from 'ol/source/Vector';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+
 
 @Component({
   selector: 'app-home-page',
@@ -12,7 +17,11 @@ export class HomePageComponent implements OnInit {
   data: HomeModel[];
   viewData: HomeModel[];
 
+  faTag = faTag;
+  faEdit = '';
+
   constructor(private homeService: HomeService) {
+
   }
 
   ngOnInit(): void {
@@ -31,5 +40,18 @@ export class HomePageComponent implements OnInit {
     const searchText = event.target.value.toLowerCase();
     this.viewData = this.data.filter(x => x.name.toLowerCase().includes(searchText));
   }
+
+  getLongitude(id) {
+    return this.data.find(x => x._id === id).longitude;
+  }
+
+  getLatitude(id) {
+    return this.data.find(x => x._id === id).latitude;
+  }
+
+  getVectorSource(id) {
+   return  new VectorSource({features: [new Feature(new Point([this.getLongitude(id), this.getLatitude(id)]))]});
+  }
+
 
 }
