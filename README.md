@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
-Some data in 'fakeData.json' which are 'longitude', 'lattitude' and 'balance' was changed.
+Some data in 'fakeData.json' which are 'longitude', 'latitude' and 'balance' was changed.
 
 ## Development server
 
