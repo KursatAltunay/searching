@@ -1,4 +1,7 @@
-.information{
+.picture_section{
+  display: flex;
+}
+.information_section{
   display: flex;
     flex-direction: column;
     align-content: space-between;
@@ -6,5 +9,29 @@
     div{
         margin-top: 5px;
       height: 100%;
+      padding: 5px;
     }
+
+  .fa{
+    margin-right: 5px;
+  }
+
+  span.badge{
+    margin-right: 5px;
+    margin-top: 5px;
+  }
 }
+::ng-deep{
+  .ol-zoom.ol-unselectable.ol-control{
+    top: 1.5em;
+  }
+}
+
+@media (max-width: 992px){
+  .picture_section,
+  .information_section,
+  .map_section{
+    margin-bottom: 20px;
+  }
+}
+

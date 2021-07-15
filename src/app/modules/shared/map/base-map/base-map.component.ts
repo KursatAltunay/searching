@@ -1,18 +1,28 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Map } from 'ol';
-import { OSM } from 'ol/source';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {Map} from 'ol';
+import {OSM} from 'ol/source';
 import View from 'ol/View';
 import VectorSource from 'ol/source/Vector';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import * as olProj from 'ol/proj';
 
 
 @Component({
   selector: 'app-base-map',
   templateUrl: './base-map.component.html',
-  styleUrls: ['./base-map.component.scss']
+  styleUrls: ['./base-map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -26,7 +36,7 @@ export class BaseMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   point: Point;
 
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
   }
@@ -35,6 +45,7 @@ export class BaseMapComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       const place = [this.longitude, this.latitude];
       this.generateMap(place);
+      this.cdr.markForCheck();
     });
   }
 
@@ -47,6 +58,7 @@ export class BaseMapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map = new Map({
       target: this.mapRef.nativeElement,
       view: new View({
+        projection: 'EPSG:4326',
         center: place,
         zoom: 2
       }),

@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-
-
 @NgModule({
   declarations: [HomePageComponent],
   imports: [
@@ -15,7 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       { path: '', component: HomePageComponent },
     ]),
     SharedModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ]
 })
 export class HomeModule { }

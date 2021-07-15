@@ -1,27 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { HomeService } from '@store/home/services/home.service';
-import { HomeModel } from '@store/home/models/home-model';
-import { faTag } from '@fortawesome/free-solid-svg-icons';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {HomeService} from '@store/home/services/home.service';
+import {HomeModel} from '@store/home/models/home-model';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import {CurrencyPipe} from '@angular/common';
 
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  styleUrls: ['./home-page.component.scss'],
+  providers: [CurrencyPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePageComponent implements OnInit {
 
   data: HomeModel[];
   viewData: HomeModel[];
 
-  faTag = faTag;
-  faEdit = '';
 
-  constructor(private homeService: HomeService) {
-
+  constructor(
+    private homeService: HomeService,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   ngOnInit(): void {
@@ -33,12 +35,16 @@ export class HomePageComponent implements OnInit {
       this.data = result;
       this.viewData = [...this.data];
       console.log(this.data);
+      this.cdr.markForCheck();
     });
   }
 
   onKeydown(event): void {
     const searchText = event.target.value.toLowerCase();
-    this.viewData = this.data.filter(x => x.name.toLowerCase().includes(searchText));
+    this.viewData = this.data.filter(x =>
+      x.name.toLowerCase().includes(searchText) ||
+      x.address.toLowerCase().includes(searchText) ||
+      x.company.toLowerCase().includes(searchText));
   }
 
   getLongitude(id) {
@@ -52,6 +58,4 @@ export class HomePageComponent implements OnInit {
   getVectorSource(id) {
    return  new VectorSource({features: [new Feature(new Point([this.getLongitude(id), this.getLatitude(id)]))]});
   }
-
-
 }

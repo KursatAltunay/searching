@@ -1,6 +1,6 @@
 <div class="container">
   <div class="form-group mt-5">
-    <input type="text" class="form-control" placeholder="Search by name..." (keyup)="onKeydown($event)">
+    <input type="text" class="form-control" placeholder="Search by name, company or address..." (keyup)="onKeydown($event)">
   </div>
 
   <div class="card mt-5" *ngFor="let item of viewData">
@@ -13,20 +13,28 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-lg-3">
-          <img class="img-fluid img-thumbnail" src="{{ item.picture }}" alt="">
+        <div class="col-lg-4 picture_section">
+          <img class="img-fluid " src="{{ item.picture }}" alt="">
         </div>
-        <div class="col-lg-5  information">
-          <div>{{ item.company }}</div>
-          <div>{{ item.balance }}</div>
-          <div>{{ item.address }}</div>
-          <div>{{ item.email }}</div>
-          <div>{{ item.phone }}</div>
-          <div> <span class="badge bg-info" *ngFor="let tag of item.tags"> <i class="fas fa-tag"></i> {{ tag }} </span>
+        <div class="col-lg-4  information_section">
+          <div><i class="fa fa-building"></i> {{ item.company }}</div>
+          <div><i class="fa fa-money"></i> {{item.balance | currency}}</div>
+          <div><i class="fa fa-map-marker"></i> {{ item.address }}</div>
+          <div><i class="fa fa-envelope"></i> {{ item.email }}</div>
+          <div><i class="fa fa-phone-square"></i> {{ item.phone }}</div>
+          <div>
+            <span class="badge bg-info" *ngFor="let tag of item.tags">
+              <i class="fa fa-tag"></i> {{ tag }}
+            </span>
           </div>
         </div>
-        <div class="col-lg-4">
-          <app-base-map  [longitude]="getLongitude(item._id)" [latitude]="getLatitude(item._id)" [vectorSource]="getVectorSource(item._id)"></app-base-map>
+        <div class="col-lg-4 map_section">
+          <app-base-map
+            [longitude]="getLongitude(item._id)"
+            [latitude]="getLatitude(item._id)"
+            [vectorSource]="getVectorSource(item._id)">
+
+          </app-base-map>
         </div>
       </div>
     </div>
